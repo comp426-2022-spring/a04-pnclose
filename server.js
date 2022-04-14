@@ -30,17 +30,12 @@ const port = args.port || process.env.PORT || 5555
 
 
 
-// Log request body and reponse body
-const logging = (req, res, next) => {
-    console.log(req.body.number)
-    next()
-}
-
-
 // Start an app server
 const server = app.listen(port, () => {
-    console.log('App listening on port %PORT%'.replace('%PORT%',port))
+    console.log('App listening on port %PORT%'.replace('%PORT%', port))
 });
+
+// Set up help
 
 // ------------------------------------------------------------------------------
 // -------------------------------- COIN STUFF ----------------------------------
