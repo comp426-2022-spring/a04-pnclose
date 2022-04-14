@@ -19,16 +19,11 @@ const morgan = require('morgan')
 // Get fs
 const fs = require('fs')
 
-
-
-
 // Get minimist
 const args = require("minimist")(process.argv.slice(2))
 
 // Set up port
 const port = args.port || process.env.PORT || 5555
-
-
 
 // Start an app server
 const server = app.listen(port, () => {
@@ -54,8 +49,6 @@ if (args.help || args.h) {
     console.log(help)
     process.exit(0)
 }
-
-
 
 // log using fs
 if (args.log == true) {
@@ -84,8 +77,6 @@ app.use((req, res, next) => {
     next();
 });
 
-
-
 // Default endpoints
 app.get('/app/', (req, res) => {
     res.statusCode = 200;
@@ -98,6 +89,7 @@ app.get('/app/', (req, res) => {
 // ------------------------------------------------------------------------------
 // -------------------------------- COIN STUFF ----------------------------------
 // ------------------------------------------------------------------------------
+
 function coinFlip() {
     return Math.random() < 0.5 ? 'heads' : 'tails'
 }
@@ -109,7 +101,6 @@ function coinFlips(flips) {
     }
     return arr
 }
-
 
 function countFlips(flips) {
     let hCnt = 0
@@ -133,7 +124,6 @@ function countFlips(flips) {
     return { heads: hCnt, tails: tCnt }
 }
 
-
 function flipACoin(call) {
     let res = coinFlip()
     var result;
@@ -149,26 +139,21 @@ function flipACoin(call) {
 // -------------------------------- ENDPOINTS ----------------------------------
 // ------------------------------------------------------------------------------
 
-
 // Request
 app.get('/app/flip/', (req, res) => {
     var temp = coinFlip()
     res.status(200).json({'flip' : temp})
 })
 
-
-
 app.get('/app/flips/:number/', (req, res) => {
     var temp = coinFlips(req.params.number)
     res.status(200).json({'raw': temp, 'summary': countFlips(temp)})
 })
 
-
 app.get('/app/flip/call/:guess(heads|tails)', (req, res) => {
     const game = flipACoin(req.params.guess)
     res.status(200).json(game)
 });
-
 
 // Debug endpoints
 if (args.debug) {
