@@ -9,7 +9,6 @@ let row = stmt.get();
 // initialize database
 if (row === undefined) {
     console.log('Log database is empty. Creating log database...')
-
     const sqlInit = 
         `   CREATE TABLE accesslog (
             id INTEGER NOT NULL PRIMARY KEY, 
@@ -18,7 +17,6 @@ if (row === undefined) {
             httpversion TEXT, status INTEGER, 
             referer TEXT, useragent TEXT
         );`
-
     db.exec(sqlInit)
 } else {
     console.log("Database exists")
