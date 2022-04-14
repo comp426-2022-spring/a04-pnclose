@@ -1,10 +1,17 @@
-// Require Express.js
-// Start app
-import minimist from 'minimist'
-import express from 'express'
+// Get express and database
+const express = require('express')
+
+// create app
 const app = express()
 
-// Get port from terminal 
+// create database
+const db = require("./database.js")
+
+// Encode URL
+app.use(express.urlencoded({ extended: true }))
+
+// Use express
+app.use(express.json())
 
 const args = minimist(process.argv.slice(2));
 args['port']
