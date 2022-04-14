@@ -86,6 +86,13 @@ app.use((req, res, next) => {
 
 
 
+// Default endpoints
+app.get('/app/', (req, res) => {
+    res.statusCode = 200;
+    res.statusMessage = 'OK';
+    res.writeHead(res.statusCode, { 'Content-Type': 'text/plain' });
+    res.end(res.statusCode + ' ' + res.statusMessage)
+});
 
 
 // ------------------------------------------------------------------------------
@@ -149,15 +156,23 @@ app.get('/app/', (req, res) => {
     res.type("text/plain")
 })
 
+// Request
 app.get('/app/flip/', (req, res) => {
     var temp = coinFlip()
     res.status(200).json({'flip' : temp})
 })
 
+
+
 app.get('/app/flips/:number/', (req, res) => {
     var temp = coinFlips(req.params.number)
     res.status(200).json({'raw': temp, 'summary': countFlips(temp)})
 })
+
+app.get('/app/flip/call/:guess(heads|tails)', (req, res) => {
+    const game = flipACoin(req.params.guess)
+    res.status(200).json(game)
+});
 
 // endpoints for heads and tails
 app.get('/app/flip/call/heads/', (req, res) => {
