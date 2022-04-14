@@ -22,14 +22,13 @@ const fs = require('fs')
 
 
 
+// Get minimist
+const args = require("minimist")(process.argv.slice(2))
 
-const args = minimist(process.argv.slice(2));
-args['port']
-var port = args.port || 5000
+// Set up port
+const port = args.port || process.env.PORT || 5555
 
-// Use express
-app.use(express.json())
-app.use(express.urlencoded({ extended: true }))
+
 
 // Log request body and reponse body
 const logging = (req, res, next) => {
