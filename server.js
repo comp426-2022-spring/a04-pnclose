@@ -150,12 +150,6 @@ function flipACoin(call) {
 // ------------------------------------------------------------------------------
 
 
-
-app.get('/app/', (req, res) => {
-    res.status(200).end('OK')
-    res.type("text/plain")
-})
-
 // Request
 app.get('/app/flip/', (req, res) => {
     var temp = coinFlip()
@@ -169,34 +163,34 @@ app.get('/app/flips/:number/', (req, res) => {
     res.status(200).json({'raw': temp, 'summary': countFlips(temp)})
 })
 
+
 app.get('/app/flip/call/:guess(heads|tails)', (req, res) => {
     const game = flipACoin(req.params.guess)
     res.status(200).json(game)
 });
 
-// endpoints for heads and tails
-app.get('/app/flip/call/heads/', (req, res) => {
-    var temp = flipACoin('heads')
-    res.status(200).json(temp)
-})
 
-app.get('/app/flip/call/tails/', (req, res) => {
-  var temp = flipACoin('tails')
-  res.status(200).json(temp)
-})
-
-app.use(function(req, res) {
-  res.status(404).send("Endpoint does not exist")
-  res.type("text/plain")
-})
+// Debug endpoints
+if (args.debug) {
+    app.get('/app/log/access', (req, res) => {
+        const stmt = db.prepare("SELECT * FROM accesslog").all();
+        res.status(200).json(stmt);
+    });
+    app.get("/app/error", (req, res) => {
+        throw new Error("Error Test Successful.");
+    });
+}
 
 // Default response for any other request
-app.use(function(req, res){
-  res.status(404).send('404 NOT FOUND')
-  res.type("text/plain")
-})
-  
+app.use(function (req, res) {
+    res.status(404).send('404 NOT FOUND')
+});
 
+process.on('SIGTERM', () => {
+    server.close(() => {
+        console.log('Server stopped')
+    })
+});
 
 
 
